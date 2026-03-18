@@ -1,0 +1,29 @@
+{
+  "type": "object",
+  "properties": {
+    "amount": {
+      "type": "number",
+      "minimum": 1000,
+      "maximum": 50000
+    },
+    "term_months": {
+      "type": "integer",
+      "minimum": 12,
+      "maximum": 360
+    },
+    "purpose": {
+      "type": "string",
+      "enum": ["debt_consolidation", "home_improvement", "medical", "education", "auto", "small_business", "other"]
+    },
+    "annual_income": {
+      "type": "number",
+      "minimum": 20000,
+      "maximum": 999999
+    },
+    "employment_status": {
+      "type": "string",
+      "enum": ["full_time", "part_time", "self_employed", "unemployed", "retired"]
+    }
+  },
+  "required": ["amount", "term_months", "purpose", "annual_income", "employment_status"]
+}
