@@ -1,0 +1,2 @@
+APScheduler
+psycopg2-binary

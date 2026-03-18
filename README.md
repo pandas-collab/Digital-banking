@@ -1,10 +1,10 @@
-# Core Banking Platform BULLETPROOF insurance purchase system setup complete!
+# Insurance Purchase System
 
-## Quick Start
-### Prerequisites
-- Node.js 16+
-- Python 3.8+
-- Docker & Docker-compose
+## Quick Setup
+1. Install dependencies:
+   - Node.js 16+
+   - Python 3.8+
+   - Docker & Docker-compose
 
 ### Frontend Setup
 1. Install dependencies: `npm install`
@@ -25,7 +25,7 @@
 ### Post-merge process
 After merging, run: `./setup_and_test.sh`
 
-### Services Architecture
+## Services Architecture
 - **Frontend**: Next.js React app
 - **Backend**: Python Flask REST API
 - **Database**: PostgreSQL
