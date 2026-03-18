@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.api.routes import loans, users, auth
+from app.routers import transfers, accounts, loans, users, auth
 from app.db.database import engine, Base
 from app.core.config import settings
 
@@ -8,7 +8,7 @@ from app.core.config import settings
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
-    title="Loan Tracker API",
+    title="Core Banking API",
     version="1.0.0",
     description="API for tracking loan status and remaining balance"
 )
@@ -26,10 +26,12 @@ app.add_middleware(
 app.include_router(auth.router, prefix="/api/auth", tags=["authentication"])
 app.include_router(users.router, prefix="/api/users", tags=["users"])
 app.include_router(loans.router, prefix="/api/loans", tags=["loans"])
+app.include_router(transfers.router, prefix="/api/transfers", tags=["transfers"])
+app.include_router(accounts.router, prefix="/api/accounts", tags=["accounts"])
 
 @app.get("/")
 async def root():
-    return {"message": "Loan Tracker API is running"}
+    return {"message": "Core Banking API is running"}
 
 @app.get("/health")
 async def health_check():
