@@ -1,19 +1,30 @@
-class ApiClient {
-  private baseUrl: string;
+import axios from 'axios';
 
-  constructor(baseUrl: string = 'http://localhost:8000') {
-    this.baseUrl = baseUrl;
+const apiClient = axios.create({
+  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:8000',
+  timeout: 10000,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
+apiClient.interceptors.request.use((config) => {
+  const token = localStorage.getItem('auth_token');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
   }
+  return config;
+});
 
-  async healthCheck(): Promise<boolean> {
-    try {
-      const response = await fetch(`${this.baseUrl}/api/health`);
-      return response.ok;
-    } catch (error) {
-      console.error('Health check failed:', error);
-      return false;
+apiClient.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      localStorage.removeItem('auth_token');
+      window.location.href = '/login';
     }
+    return Promise.reject(error);
   }
-}
+);
 
-export default ApiClient;
+export default apiClient;
