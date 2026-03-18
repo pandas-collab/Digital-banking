@@ -28,8 +28,8 @@ const TransferForm: React.FC<TransferFormProps> = ({ onSubmit }) => {
 
   const validateForm = (): boolean => {
     const errors: FormErrors = {};
-
     const amount = parseFloat(state.amount);
+
     if (isNaN(amount) || amount <= 0) {
       errors.amount = 'Please enter a valid amount greater than 0';
     }
@@ -56,10 +56,9 @@ const TransferForm: React.FC<TransferFormProps> = ({ onSubmit }) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
     // Clear previous messages
     setState(prev => ({ ...prev, successMessage: '' }));
-
+    
     if (!validateForm()) {
       console.warn('Transfer form validation failed:', state.errors);
       return;
@@ -70,12 +69,8 @@ const TransferForm: React.FC<TransferFormProps> = ({ onSubmit }) => {
 
     try {
       if (onSubmit) {
-        await onSubmit({
-          amount: parseFloat(state.amount),
-          account: state.account.trim()
-        });
+        await onSubmit({ amount: parseFloat(state.amount), account: state.account.trim() });
       }
-
       setState(prev => ({
         ...prev,
         amount: '',
@@ -83,14 +78,12 @@ const TransferForm: React.FC<TransferFormProps> = ({ onSubmit }) => {
         isSubmitting: false,
         successMessage: 'Transfer completed successfully!'
       }));
-
       console.info('Transfer completed successfully');
-
+      
       // Clear success message after 5 seconds
       setTimeout(() => {
         setState(prev => ({ ...prev, successMessage: '' }));
       }, 5000);
-
     } catch (error) {
       console.error('Transfer submission failed:', error);
       setState(prev => ({
@@ -102,16 +95,8 @@ const TransferForm: React.FC<TransferFormProps> = ({ onSubmit }) => {
   };
 
   return (
-    <div style={{
-      maxWidth: '400px',
-      margin: '0 auto',
-      padding: '20px',
-      border: '1px solid #ddd',
-      borderRadius: '8px',
-      fontFamily: 'Arial, sans-serif'
-    }}>
+    <div style={{ maxWidth: '400px', margin: '0 auto', padding: '20px', border: '1px solid #ddd', borderRadius: '8px', fontFamily: 'Arial, sans-serif' }}>
       <h2 style={{ marginTop: 0 }}>Transfer Funds</h2>
-
       <form onSubmit={handleSubmit}>
         <div style={{ marginBottom: '15px' }}>
           <label htmlFor="amount" style={{ display: 'block', marginBottom: '5px' }}>
@@ -127,21 +112,10 @@ const TransferForm: React.FC<TransferFormProps> = ({ onSubmit }) => {
             step="0.01"
             min="0"
             disabled={state.isSubmitting}
-            style={{
-              width: '100%',
-              padding: '8px',
-              border: '1px solid #ccc',
-              borderRadius: '4px',
-              boxSizing: 'border-box'
-            }}
+            style={{ width: '100%', padding: '8px', border: '1px solid #ccc', borderRadius: '4px', boxSizing: 'border-box' }}
           />
           {state.errors.amount && (
-            <span style={{
-              color: 'red',
-              fontSize: '0.8em',
-              display: 'block',
-              marginTop: '5px'
-            }}>
+            <span style={{ color: 'red', fontSize: '0.8em', display: 'block', marginTop: '5px' }}>
               {state.errors.amount}
             </span>
           )}
@@ -159,35 +133,17 @@ const TransferForm: React.FC<TransferFormProps> = ({ onSubmit }) => {
             onChange={handleInputChange}
             placeholder="Enter account number"
             disabled={state.isSubmitting}
-            style={{
-              width: '100%',
-              padding: '8px',
-              border: '1px solid #ccc',
-              borderRadius: '4px',
-              boxSizing: 'border-box'
-            }}
+            style={{ width: '100%', padding: '8px', border: '1px solid #ccc', borderRadius: '4px', boxSizing: 'border-box' }}
           />
           {state.errors.account && (
-            <span style={{
-              color: 'red',
-              fontSize: '0.8em',
-              display: 'block',
-              marginTop: '5px'
-            }}>
+            <span style={{ color: 'red', fontSize: '0.8em', display: 'block', marginTop: '5px' }}>
               {state.errors.account}
             </span>
           )}
         </div>
 
         {state.successMessage && (
-          <div style={{
-            backgroundColor: '#d4edda',
-            color: '#155724',
-            padding: '10px',
-            borderRadius: '4px',
-            marginBottom: '15px',
-            fontSize: '0.9em'
-          }}>
+          <div style={{ backgroundColor: '#d4edda', color: '#155724', padding: '10px', borderRadius: '4px', marginBottom: '15px', fontSize: '0.9em' }}>
             {state.successMessage}
           </div>
         )}
@@ -195,21 +151,12 @@ const TransferForm: React.FC<TransferFormProps> = ({ onSubmit }) => {
         <button
           type="submit"
           disabled={state.isSubmitting}
-          style={{
-            width: '100%',
-            padding: '10px',
-            backgroundColor: state.isSubmitting ? '#ccc' : '#007bff',
-            color: 'white',
-            border: 'none',
-            borderRadius: '4px',
-            cursor: state.isSubmitting ? 'not-allowed' : 'pointer',
-            fontSize: '16px'
-          }}
+          style={{ width: '100%', padding: '10px', backgroundColor: state.isSubmitting ? '#ccc' : '#007bff', color: 'white', border: 'none', borderRadius: '4px', cursor: state.isSubmitting ? 'not-allowed' : 'pointer', fontSize: '16px' }}
         >
           {state.isSubmitting ? 'Processing...' : 'Transfer Funds'}
         </button>
       </form>
-
+      
       {/* Hidden test component for CI/CD */}
       <div
         id="test-harness"
